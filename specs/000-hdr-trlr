@@ -92,3 +92,26 @@ $ echo "goodbye world" 1>&2
 $ exit 1
 !!
 goodbye world
+
+When the name of a case contains the string <invert-check> the outcome
+of the test is reversed as seen below.   If the check results would normally
+pass,  the test fails.  If the check results would normally fail, then
+the test passes.
+
+name: self-test valid stdout  <invert-check>
+$ echo "hello world"
+hell wrld
+
+name: self-test valid stderr  <invert-check>
+$ echo "goodbye world" 1>&2
+exit_code: 0
+!!
+good world
+
+name: self-test valid stderr  <invert-check>
+$ echo "goodbye world" 1>&2
+$ true
+exit_code: 0
+there was a lot to say
+!!
+goodbye world

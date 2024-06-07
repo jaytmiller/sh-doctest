@@ -1,6 +1,7 @@
 from typing import Any
 import difflib
 import subprocess
+import re
 
 import yaml
 
@@ -236,6 +237,13 @@ class CaseChecker:
         self.case = case
 
     def check(self) -> bool:
+        result = self._check()
+        if "<invert-check>" in self.case.name:
+            return not result
+        else:
+            return result
+
+    def _check(self) -> bool:
         if not self.case.result:
             return False
         self.case.comparison = dict(
@@ -255,7 +263,9 @@ class CaseChecker:
             return "Passed"
         elif expected in ["0", "ok", "ignore_stdout"] and result in ["0", "ok"]:
             return "Passed"
-        elif expected in ["fail", "ignore_stderr"] and result not in ["0", "ok"]:
+        elif ((expected in ["fail", "ignore_stderr"] or
+               (re.match(r"\d+", expected) and expected != "0"))
+              and result not in ["0", "ok"]):
             return "Passed"
         else:
             return f"Expected exit code {expected},  got {result}."

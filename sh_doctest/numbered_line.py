@@ -62,3 +62,6 @@ class NumberedLine:
 
     def endswith(self, suffix: str | tuple[str, ...]) -> bool:
         return self.line.endswith(suffix)
+
+    def __contains__(self, value: str) -> bool:
+        return value in str(self.line)
