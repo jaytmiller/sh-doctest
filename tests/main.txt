@@ -1,0 +1,13 @@
+>>> from sh_doctest.main import *
+>>> from sh_doctest import main
+>>> from sh_doctest.numbered_line import NumberedLine
+>>> from sh_doctest.line_block import LineBlock
+>>> from sh_doctest.case import Case
+
+
+ 
+>>> NumberedLine('This is a test line.', 27)
+NumberedLine('This is a test line.', 27)
+ 
+>> spec = Spec())
+>> spec.parse()

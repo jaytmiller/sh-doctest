@@ -1,0 +1,17 @@
+#! /bin/bash
+
+# This script is used for offline development in conjunction with
+# the related Dockerfile.  Running the tool in a container enables
+# operating as root and mutating OS related files by adding test
+# users and groups without permanent consequences on the host.
+
+if [ "$*" == "" ]; then
+    specs="$(ls -1 specs/0*)"
+else
+    specs="specs/000-* $*"
+fi
+command="python -m sh_doctest.main  --exit-first-failure  --save-results  --output /out  ${specs}"
+
+docker build --tag sh-doctest-testing .
+
+docker run -it --rm  -v.:/out   sh-doctest-testing  ${command}

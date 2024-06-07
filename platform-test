@@ -1,0 +1,14 @@
+#! /bin/bash
+
+# This script is run from within the efs-tester pod to execute the
+# sh-doctest test specs in a standard/easy way
+
+set -e
+
+if [ "$*" == "" ]; then
+    specs="$(ls -1 specs/0*)"
+else
+    specs="specs/000-init $*"
+fi
+
+python -m sh_doctest.main  --debug  --exit-first-failure  --save-results  ${specs}
