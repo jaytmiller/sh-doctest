@@ -65,12 +65,15 @@ class Spec:
     def run_and_check(self) -> bool:
         """Run and check all the test cases."""
         failed = False
+        failures = 0
         for test_case in self.test_cases:
             try:
                 failed = test_case.run_and_check()
             except Exception:
                 log.exception(f"On: {test_case.name} ::\n{test_case.commands}\n")
                 failed = True
-            if failed and self.exit_first_failure:
-                break
-        return failed
+            if failed:
+                failures += 1
+                if self.exit_first_failure:
+                    return 1
+        return failures

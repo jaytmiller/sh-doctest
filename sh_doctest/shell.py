@@ -7,7 +7,7 @@ from .log import log
 # -----------------------------------------------------------------------------------
 
 HEADER = "#!\bin/bash set -eu -o pipefail\n"
-TRAILER = "\nexit 0q\n"
+TRAILER = "\nexit 0\n"
 
 
 def set_header(script: str) -> None:

@@ -64,7 +64,7 @@ class ShDoctest:
         log.set_level("DEBUG" if self.args.verbose else "INFO")
 
     def main(self) -> int:
-        failed = 0
+        failures = failed = 0
         test_count = spec_count = template_count = expansion_count = 0
         for spec_path in self.args.test_specs:
             spec_count = spec_count + 1
@@ -83,20 +83,23 @@ class ShDoctest:
             if not self.args.dry_run:
                 try:
                     test_count = test_count + len(spec.test_cases)
-                    failed |= self.run_and_check(spec)
+                    failed = self.run_and_check(spec)
                 except Exception:
                     log.exception("Failed to run and check", expanded)
                     failed = 1
             if self.args.save_results:
                 spec.writeto(expanded.replace(".expanded", ".yaml"))
-            if failed and self.args.exit_first_failure:
-                return 1
+            if failed:
+                failures += failed
+                if self.args.exit_first_failure:
+                    log.error("Existing no first failure.")
+                    return 1
         log.info(f"Executed {test_count} tests defined in {spec_count} specs.")
         log.info(
             f"Specs defined {template_count} templates with {expansion_count} template expansions."
         )
-        log.info("All tests passed." if not failed else "Some tests failed.")
-        return failed
+        log.info("All tests passed." if not failures else f"Approx {failures} tests failed.")
+        return failures
 
     def expand_templates(self, spec_path: str) -> tuple[TemplatedDoc, str]:
         log.debug("Expanding templates for", spec_path)

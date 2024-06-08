@@ -238,10 +238,10 @@ class CaseChecker:
 
     def check(self) -> bool:
         result = self._check()
-        if "<invert-check>" in self.case.name:
-            return not result
-        else:
+        if "<invert-check>" not in self.case.name:
             return result
+        else:
+            return not result
 
     def _check(self) -> bool:
         if not self.case.result:

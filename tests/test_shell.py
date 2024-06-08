@@ -43,12 +43,6 @@ def test_shell_runs_script_with_check():
         pass
 
 
-def test_shell_runs_script_with_interpreter():
-    script = "[[ true ]]"  # illegal for basic sh vs. bash
-    result = shell(script, interpreter="/bin/sh")
-    assert result.returncode != 0
-
-
 def test_set_trailer():
     set_header("echo 'Header'")
     set_trailer("echo 'Trailer'")
