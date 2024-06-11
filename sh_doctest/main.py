@@ -92,7 +92,7 @@ class ShDoctest:
             if failed:
                 failures += failed
                 if self.args.exit_first_failure:
-                    log.error("Existing no first failure.")
+                    log.error("Exiting on first failure.")
                     return 1
         log.info(f"Executed {test_count} tests defined in {spec_count} specs.")
         log.info(
