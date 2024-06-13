@@ -16,7 +16,7 @@ with open("requirements_dev.txt") as f:
 setup(
     author="Todd Miller",
     author_email='jmiller@stsci.edu',
-    python_requires='>=3.11',
+    python_requires='>=3.10',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
